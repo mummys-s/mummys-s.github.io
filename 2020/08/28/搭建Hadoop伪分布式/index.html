@@ -6,20 +6,54 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <link rel="dns-prefetch" href="http://yoursite.com">
-  <title>Ajax封装函数 | Hexo</title>
+  <title>搭建Hadoop伪分布式 | Hexo</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="问题：当要发送多次Ajax请求时，每次发送都要写一遍Ajax请求，会造成代码冗余且重复  解决问题：将请求代码封装到一个函数中，当要发送时调用此函数即可   要传递和返回的数据在执行Ajax请求时，要有请求的参数类型、请求的地址、以及请求后返回的值 在调用函数的实参，可以用对象的方式，把数据存放在对象中，在修改、取值、和查看代码时，都可以很方便的了解到传递的值 在封装函数的形参中，有option">
+  <meta name="description" content="第一部分、创建虚拟机1.1、下载软件 下载vmware workstation，具体破解版自行百度  1.2、创建虚拟机 新建一个虚拟机，选择典型即可    点击下一步，选择虚拟机镜像，我的是centos 7     点击下一步，输入信息    点击下一步，选择虚拟机存放路径    点击下一步，配置磁盘的容量    点击下一步，完成创建，完成后会自动启动虚拟机    在等待过程中，可以设置虚拟机的">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Ajax封装函数">
-<meta property="og:url" content="http://yoursite.com/2020/07/19/Ajax%E5%B0%81%E8%A3%85%E5%87%BD%E6%95%B0/index.html">
+<meta property="og:title" content="搭建Hadoop伪分布式">
+<meta property="og:url" content="http://yoursite.com/2020/08/28/%E6%90%AD%E5%BB%BAHadoop%E4%BC%AA%E5%88%86%E5%B8%83%E5%BC%8F/index.html">
 <meta property="og:site_name" content="Hexo">
-<meta property="og:description" content="问题：当要发送多次Ajax请求时，每次发送都要写一遍Ajax请求，会造成代码冗余且重复  解决问题：将请求代码封装到一个函数中，当要发送时调用此函数即可   要传递和返回的数据在执行Ajax请求时，要有请求的参数类型、请求的地址、以及请求后返回的值 在调用函数的实参，可以用对象的方式，把数据存放在对象中，在修改、取值、和查看代码时，都可以很方便的了解到传递的值 在封装函数的形参中，有option">
+<meta property="og:description" content="第一部分、创建虚拟机1.1、下载软件 下载vmware workstation，具体破解版自行百度  1.2、创建虚拟机 新建一个虚拟机，选择典型即可    点击下一步，选择虚拟机镜像，我的是centos 7     点击下一步，输入信息    点击下一步，选择虚拟机存放路径    点击下一步，配置磁盘的容量    点击下一步，完成创建，完成后会自动启动虚拟机    在等待过程中，可以设置虚拟机的">
 <meta property="og:locale" content="ch_CN">
-<meta property="article:published_time" content="2020-07-19T14:27:30.000Z">
-<meta property="article:modified_time" content="2020-07-19T14:31:33.903Z">
+<meta property="og:image" content="http://yoursite.com/2020/08/28/%E6%90%AD%E5%BB%BAHadoop%E4%BC%AA%E5%88%86%E5%B8%83%E5%BC%8F/%E6%90%AD%E5%BB%BAHadoop%E4%BC%AA%E5%88%86%E5%B8%83%E5%BC%8F.assets/%E5%88%9B%E5%BB%BA%E8%99%9A%E6%8B%9F%E6%9C%BA.png">
+<meta property="og:image" content="http://yoursite.com/2020/08/28/%E6%90%AD%E5%BB%BAHadoop%E4%BC%AA%E5%88%86%E5%B8%83%E5%BC%8F/%E6%90%AD%E5%BB%BAHadoop%E4%BC%AA%E5%88%86%E5%B8%83%E5%BC%8F.assets/%E9%80%89%E6%8B%A9%E9%95%9C%E5%83%8F.png">
+<meta property="og:image" content="http://yoursite.com/2020/08/28/%E6%90%AD%E5%BB%BAHadoop%E4%BC%AA%E5%88%86%E5%B8%83%E5%BC%8F/%E6%90%AD%E5%BB%BAHadoop%E4%BC%AA%E5%88%86%E5%B8%83%E5%BC%8F.assets/%E8%BE%93%E5%85%A5%E4%BF%A1%E6%81%AF-1598619762586.png">
+<meta property="og:image" content="http://yoursite.com/2020/08/28/%E6%90%AD%E5%BB%BAHadoop%E4%BC%AA%E5%88%86%E5%B8%83%E5%BC%8F/%E6%90%AD%E5%BB%BAHadoop%E4%BC%AA%E5%88%86%E5%B8%83%E5%BC%8F.assets/%E9%80%89%E6%8B%A9%E4%BD%8D%E7%BD%AE-1598619778723.png">
+<meta property="og:image" content="http://yoursite.com/2020/08/28/%E6%90%AD%E5%BB%BAHadoop%E4%BC%AA%E5%88%86%E5%B8%83%E5%BC%8F/%E6%90%AD%E5%BB%BAHadoop%E4%BC%AA%E5%88%86%E5%B8%83%E5%BC%8F.assets/%E7%A3%81%E7%9B%98%E5%AE%B9%E9%87%8F.png">
+<meta property="og:image" content="http://yoursite.com/2020/08/28/%E6%90%AD%E5%BB%BAHadoop%E4%BC%AA%E5%88%86%E5%B8%83%E5%BC%8F/%E6%90%AD%E5%BB%BAHadoop%E4%BC%AA%E5%88%86%E5%B8%83%E5%BC%8F.assets/%E5%AE%8C%E6%88%90%E5%88%9B%E5%BB%BA.png">
+<meta property="og:image" content="http://yoursite.com/2020/08/28/%E6%90%AD%E5%BB%BAHadoop%E4%BC%AA%E5%88%86%E5%B8%83%E5%BC%8F/%E6%90%AD%E5%BB%BAHadoop%E4%BC%AA%E5%88%86%E5%B8%83%E5%BC%8F.assets/%E8%99%9A%E6%8B%9F%E6%9C%BA%E9%85%8D%E7%BD%AE.png">
+<meta property="og:image" content="http://yoursite.com/2020/08/28/%E6%90%AD%E5%BB%BAHadoop%E4%BC%AA%E5%88%86%E5%B8%83%E5%BC%8F/%E6%90%AD%E5%BB%BAHadoop%E4%BC%AA%E5%88%86%E5%B8%83%E5%BC%8F.assets/%E9%85%8D%E7%BD%AE%E8%AF%A6%E6%83%85.png">
+<meta property="og:image" content="http://yoursite.com/2020/08/28/%E6%90%AD%E5%BB%BAHadoop%E4%BC%AA%E5%88%86%E5%B8%83%E5%BC%8F/%E6%90%AD%E5%BB%BAHadoop%E4%BC%AA%E5%88%86%E5%B8%83%E5%BC%8F.assets/%E7%AD%89%E5%BE%85.png">
+<meta property="og:image" content="http://yoursite.com/2020/08/28/%E6%90%AD%E5%BB%BAHadoop%E4%BC%AA%E5%88%86%E5%B8%83%E5%BC%8F/%E6%90%AD%E5%BB%BAHadoop%E4%BC%AA%E5%88%86%E5%B8%83%E5%BC%8F.assets/login.png">
+<meta property="og:image" content="http://yoursite.com/2020/08/28/%E6%90%AD%E5%BB%BAHadoop%E4%BC%AA%E5%88%86%E5%B8%83%E5%BC%8F/%E6%90%AD%E5%BB%BAHadoop%E4%BC%AA%E5%88%86%E5%B8%83%E5%BC%8F.assets/%E7%95%8C%E9%9D%A2.png">
+<meta property="og:image" content="http://yoursite.com/2020/08/28/%E6%90%AD%E5%BB%BAHadoop%E4%BC%AA%E5%88%86%E5%B8%83%E5%BC%8F/%E6%90%AD%E5%BB%BAHadoop%E4%BC%AA%E5%88%86%E5%B8%83%E5%BC%8F.assets/ip.png">
+<meta property="og:image" content="http://yoursite.com/2020/08/28/%E6%90%AD%E5%BB%BAHadoop%E4%BC%AA%E5%88%86%E5%B8%83%E5%BC%8F/%E6%90%AD%E5%BB%BAHadoop%E4%BC%AA%E5%88%86%E5%B8%83%E5%BC%8F.assets/%E5%8E%9F%E5%A7%8Beth.png">
+<meta property="og:image" content="http://yoursite.com/2020/08/28/%E6%90%AD%E5%BB%BAHadoop%E4%BC%AA%E5%88%86%E5%B8%83%E5%BC%8F/%E6%90%AD%E5%BB%BAHadoop%E4%BC%AA%E5%88%86%E5%B8%83%E5%BC%8F.assets/%E9%85%8D%E7%BD%AE.png">
+<meta property="og:image" content="http://yoursite.com/2020/08/28/%E6%90%AD%E5%BB%BAHadoop%E4%BC%AA%E5%88%86%E5%B8%83%E5%BC%8F/%E3%80%82%E3%80%82%E5%BB%BAHadoop%E4%BC%AA%E5%88%86%E5%B8%83%E5%BC%8F.assets/%E4%BF%AE%E6%94%B9%E4%B8%BB%E6%9C%BA%E5%90%8D.png">
+<meta property="og:image" content="http://yoursite.com/2020/08/28/%E6%90%AD%E5%BB%BAHadoop%E4%BC%AA%E5%88%86%E5%B8%83%E5%BC%8F/%E6%90%AD%E5%BB%BAHadoop%E4%BC%AA%E5%88%86%E5%B8%83%E5%BC%8F.assets/%E4%B8%BB%E6%9C%BA%E6%98%A0%E5%B0%84.png">
+<meta property="og:image" content="http://yoursite.com/2020/08/28/%E6%90%AD%E5%BB%BAHadoop%E4%BC%AA%E5%88%86%E5%B8%83%E5%BC%8F/%E6%90%AD%E5%BB%BAHadoop%E4%BC%AA%E5%88%86%E5%B8%83%E5%BC%8F.assets/over.png">
+<meta property="og:image" content="http://yoursite.com/2020/08/28/%E6%90%AD%E5%BB%BAHadoop%E4%BC%AA%E5%88%86%E5%B8%83%E5%BC%8F/%E6%90%AD%E5%BB%BAHadoop%E4%BC%AA%E5%88%86%E5%B8%83%E5%BC%8F.assets/ssh.png">
+<meta property="og:image" content="http://yoursite.com/2020/08/28/%E6%90%AD%E5%BB%BAHadoop%E4%BC%AA%E5%88%86%E5%B8%83%E5%BC%8F/%E6%90%AD%E5%BB%BAHadoop%E4%BC%AA%E5%88%86%E5%B8%83%E5%BC%8F.assets/key.png">
+<meta property="og:image" content="http://yoursite.com/2020/08/28/%E6%90%AD%E5%BB%BAHadoop%E4%BC%AA%E5%88%86%E5%B8%83%E5%BC%8F/%E6%90%AD%E5%BB%BAHadoop%E4%BC%AA%E5%88%86%E5%B8%83%E5%BC%8F.assets/find.png">
+<meta property="og:image" content="http://yoursite.com/2020/08/28/%E6%90%AD%E5%BB%BAHadoop%E4%BC%AA%E5%88%86%E5%B8%83%E5%BC%8F/%E6%90%AD%E5%BB%BAHadoop%E4%BC%AA%E5%88%86%E5%B8%83%E5%BC%8F.assets/filewall.png">
+<meta property="og:image" content="http://yoursite.com/2020/08/28/%E6%90%AD%E5%BB%BAHadoop%E4%BC%AA%E5%88%86%E5%B8%83%E5%BC%8F/%E6%90%AD%E5%BB%BAHadoop%E4%BC%AA%E5%88%86%E5%B8%83%E5%BC%8F.assets/hadoop.png">
+<meta property="og:image" content="http://yoursite.com/2020/08/28/%E6%90%AD%E5%BB%BAHadoop%E4%BC%AA%E5%88%86%E5%B8%83%E5%BC%8F/%E6%90%AD%E5%BB%BAHadoop%E4%BC%AA%E5%88%86%E5%B8%83%E5%BC%8F.assets/version.png">
+<meta property="og:image" content="http://yoursite.com/2020/08/28/%E6%90%AD%E5%BB%BAHadoop%E4%BC%AA%E5%88%86%E5%B8%83%E5%BC%8F/%E6%90%AD%E5%BB%BAHadoop%E4%BC%AA%E5%88%86%E5%B8%83%E5%BC%8F.assets/hadoop-env.png">
+<meta property="og:image" content="http://yoursite.com/2020/08/28/%E6%90%AD%E5%BB%BAHadoop%E4%BC%AA%E5%88%86%E5%B8%83%E5%BC%8F/%E6%90%AD%E5%BB%BAHadoop%E4%BC%AA%E5%88%86%E5%B8%83%E5%BC%8F.assets/core-site.png">
+<meta property="og:image" content="http://yoursite.com/2020/08/28/%E6%90%AD%E5%BB%BAHadoop%E4%BC%AA%E5%88%86%E5%B8%83%E5%BC%8F/%E6%90%AD%E5%BB%BAHadoop%E4%BC%AA%E5%88%86%E5%B8%83%E5%BC%8F.assets/hdfs-site.png">
+<meta property="og:image" content="http://yoursite.com/2020/08/28/%E6%90%AD%E5%BB%BAHadoop%E4%BC%AA%E5%88%86%E5%B8%83%E5%BC%8F/%E6%90%AD%E5%BB%BAHadoop%E4%BC%AA%E5%88%86%E5%B8%83%E5%BC%8F.assets/mapredice-site.png">
+<meta property="og:image" content="http://yoursite.com/2020/08/28/%E6%90%AD%E5%BB%BAHadoop%E4%BC%AA%E5%88%86%E5%B8%83%E5%BC%8F/%E6%90%AD%E5%BB%BAHadoop%E4%BC%AA%E5%88%86%E5%B8%83%E5%BC%8F.assets/yarn-site.png">
+<meta property="og:image" content="http://yoursite.com/2020/08/28/%E6%90%AD%E5%BB%BAHadoop%E4%BC%AA%E5%88%86%E5%B8%83%E5%BC%8F/%E6%90%AD%E5%BB%BAHadoop%E4%BC%AA%E5%88%86%E5%B8%83%E5%BC%8F.assets/format.png">
+<meta property="og:image" content="http://yoursite.com/2020/08/28/%E6%90%AD%E5%BB%BAHadoop%E4%BC%AA%E5%88%86%E5%B8%83%E5%BC%8F/%E6%90%AD%E5%BB%BAHadoop%E4%BC%AA%E5%88%86%E5%B8%83%E5%BC%8F.assets/start.png">
+<meta property="og:image" content="http://yoursite.com/2020/08/28/%E6%90%AD%E5%BB%BAHadoop%E4%BC%AA%E5%88%86%E5%B8%83%E5%BC%8F/%E6%90%AD%E5%BB%BAHadoop%E4%BC%AA%E5%88%86%E5%B8%83%E5%BC%8F.assets/jps.png">
+<meta property="og:image" content="http://yoursite.com/2020/08/28/assets/">
+<meta property="og:image" content="http://yoursite.com/2020/08/28/%E6%90%AD%E5%BB%BAHadoop%E4%BC%AA%E5%88%86%E5%B8%83%E5%BC%8F/%E6%90%AD%E5%BB%BAHadoop%E4%BC%AA%E5%88%86%E5%B8%83%E5%BC%8F.assets/8088-1598754225379.png">
+<meta property="article:published_time" content="2020-08-28T12:42:33.000Z">
+<meta property="article:modified_time" content="2020-08-30T02:38:01.621Z">
 <meta property="article:author" content="Amphobia">
-<meta property="article:tag" content="Ajax">
+<meta property="article:tag" content="Hadoop">
 <meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://yoursite.com/2020/08/28/%E6%90%AD%E5%BB%BAHadoop%E4%BC%AA%E5%88%86%E5%B8%83%E5%BC%8F/%E6%90%AD%E5%BB%BAHadoop%E4%BC%AA%E5%88%86%E5%B8%83%E5%BC%8F.assets/%E5%88%9B%E5%BB%BA%E8%99%9A%E6%8B%9F%E6%9C%BA.png">
   
     <link rel="alternative" href="/atom.xml" title="Hexo" type="application/atom+xml">
   
@@ -155,105 +189,208 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            <article id="post-Ajax封装函数" class="article article-type-post " itemscope itemprop="blogPost">
+            <article id="post-搭建Hadoop伪分布式" class="article article-type-post " itemscope itemprop="blogPost">
   <div class="article-inner">
     
       <header class="article-header">
         
   
     <h1 class="article-title" itemprop="name">
-      Ajax封装函数
+      搭建Hadoop伪分布式
     </h1>
   
 
         
-        <a href="/2020/07/19/Ajax%E5%B0%81%E8%A3%85%E5%87%BD%E6%95%B0/" class="archive-article-date">
-  	<time datetime="2020-07-19T14:27:30.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-07-19</time>
+        <a href="/2020/08/28/%E6%90%AD%E5%BB%BAHadoop%E4%BC%AA%E5%88%86%E5%B8%83%E5%BC%8F/" class="archive-article-date">
+  	<time datetime="2020-08-28T12:42:33.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-08-28</time>
 </a>
         
       </header>
     
     <div class="article-entry" itemprop="articleBody">
       
-        <ul>
-<li><p>问题：当要发送多次Ajax请求时，每次发送都要写一遍Ajax请求，会造成代码冗余且重复</p>
-</li>
-<li><p>解决问题：将请求代码封装到一个函数中，当要发送时调用此函数即可</p>
-</li>
+        <h2 id="第一部分、创建虚拟机"><a href="#第一部分、创建虚拟机" class="headerlink" title="第一部分、创建虚拟机"></a>第一部分、创建虚拟机</h2><h3 id="1-1、下载软件"><a href="#1-1、下载软件" class="headerlink" title="1.1、下载软件"></a>1.1、下载软件</h3><ul>
+<li>下载<strong>vmware workstation</strong>，具体破解版自行百度</li>
 </ul>
-<h3 id="要传递和返回的数据"><a href="#要传递和返回的数据" class="headerlink" title="要传递和返回的数据"></a>要传递和返回的数据</h3><p>在执行Ajax请求时，要有<strong>请求的参数类型</strong>、<strong>请求的地址</strong>、以及<strong>请求后返回的值</strong></p>
-<p>在调用函数的实参，可以用对象的方式，把数据存放在对象中，在修改、取值、和查看代码时，都可以很方便的了解到传递的值</p>
-<p>在封装函数的形参中，有<strong>options</strong>表示，当取数据时，可以用<strong>options.属性名</strong>得到值</p>
-<p>对于得到响应后显示的数据，应该将得到的数据从函数中提取出来，由编程人员自己控制想要得到的数据</p>
+<h3 id="1-2、创建虚拟机"><a href="#1-2、创建虚拟机" class="headerlink" title="1.2、创建虚拟机"></a>1.2、创建虚拟机</h3><ul>
+<li>新建一个虚拟机，选择<strong>典型</strong>即可</li>
+</ul>
+<p><img src="%E6%90%AD%E5%BB%BAHadoop%E4%BC%AA%E5%88%86%E5%B8%83%E5%BC%8F.assets/%E5%88%9B%E5%BB%BA%E8%99%9A%E6%8B%9F%E6%9C%BA.png" alt=""></p>
 <ul>
-<li>实参<ul>
-<li>type：请求方式</li>
-<li>url：请求的地址</li>
-<li>success：响应成功的函数</li>
+<li>点击下一步，选择虚拟机镜像，我的是<strong>centos 7</strong></li>
 </ul>
-</li>
-</ul>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line">ajax(&#123;</span><br><span class="line">    type: <span class="string">'get'</span>,</span><br><span class="line">    url: <span class="string">'http://localhost:3000/first'</span>,</span><br><span class="line">    success:<span class="function"><span class="keyword">function</span>(<span class="params">data</span>)</span>&#123;</span><br><span class="line">        <span class="built_in">console</span>.log(<span class="string">'这是success函数'</span>);</span><br><span class="line">        <span class="built_in">console</span>.log(data)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">ajax</span>(<span class="params">options</span>) </span>&#123;</span><br><span class="line">    <span class="comment">// 创建Ajax对象</span></span><br><span class="line">    <span class="keyword">var</span> xhr = <span class="keyword">new</span> XMLHttpRequest();</span><br><span class="line">    <span class="comment">// 配置Ajax</span></span><br><span class="line">    xhr.open(options.type, options.url);</span><br><span class="line">    <span class="comment">// 发送请求</span></span><br><span class="line">    xhr.send()</span><br><span class="line">    <span class="comment">// 监听返回的响应</span></span><br><span class="line">    xhr.onload = <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">        options.success(xhr.responseText);</span><br><span class="line">    &#125;;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 服务器路由</span></span><br><span class="line">app.use(<span class="string">'/first'</span>, (req, res) =&gt; &#123;</span><br><span class="line">    res.send(<span class="string">'hello Ajax'</span>)</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
-
-<h3 id="请求参数的问题"><a href="#请求参数的问题" class="headerlink" title="请求参数的问题"></a>请求参数的问题</h3><ul>
-<li><p>请求参数位置问题</p>
+<p><img src="%E6%90%AD%E5%BB%BAHadoop%E4%BC%AA%E5%88%86%E5%B8%83%E5%BC%8F.assets/%E9%80%89%E6%8B%A9%E9%95%9C%E5%83%8F.png" alt=""></p>
 <ul>
-<li>将请求参数传递给Ajax函数内部，在函数内部根据请求方式不同将请求参数放在不同位置</li>
-<li>get请求：放在请求地址后面</li>
-<li>post请求：放在send方法中</li>
+<li></li>
+<li>点击下一步，输入信息</li>
 </ul>
-</li>
-<li><p>请求参数格式问题</p>
+<p><img src="%E6%90%AD%E5%BB%BAHadoop%E4%BC%AA%E5%88%86%E5%B8%83%E5%BC%8F.assets/%E8%BE%93%E5%85%A5%E4%BF%A1%E6%81%AF-1598619762586.png" alt=""></p>
 <ul>
-<li><code>application/x-www-form-urlencoded</code><ul>
-<li>参数名称=参数值&amp;参数名称=参数值（<code>username=&#39;zhangsan&amp;age=23&#39;</code>）</li>
+<li>点击下一步，选择虚拟机存放路径</li>
 </ul>
-</li>
-<li><code>application/json</code><ul>
-<li>{参数名称：参数值，参数名称：参数值}（<code>{username:&#39;zhangsan&#39;,age:23}</code>）</li>
-</ul>
-</li>
-<li>传递对象数据类型对于函数的调用者更加友好</li>
-<li>在函数内部，对象数据类型转换为字符串类型更加方便</li>
-</ul>
-</li>
-<li><p>data：要传递的数据</p>
-</li>
-<li><p>对传递的数据进行分析</p>
+<p><img src="%E6%90%AD%E5%BB%BAHadoop%E4%BC%AA%E5%88%86%E5%B8%83%E5%BC%8F.assets/%E9%80%89%E6%8B%A9%E4%BD%8D%E7%BD%AE-1598619778723.png" alt=""></p>
 <ul>
-<li>要将对象类型的参数转换为<code>username=&#39;zhangsan&amp;age=23&#39;</code>类型<ul>
-<li>循环遍历，将对象拆分拼接 </li>
-<li>将多余的无效字符去除，并重新赋值</li>
+<li>点击下一步，配置磁盘的容量</li>
 </ul>
-</li>
-<li>判断请求类型<ul>
-<li>get请求：将参数拼接在url路径后</li>
-<li>post请求：将参数放在send方法（要设置请求头）</li>
-</ul>
-</li>
-</ul>
-</li>
-</ul>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line">ajax(&#123;</span><br><span class="line">    ...</span><br><span class="line">    data:&#123;</span><br><span class="line">        username : <span class="string">'zhangsan'</span>,</span><br><span class="line">        age : <span class="number">23</span></span><br><span class="line">    &#125;,</span><br><span class="line">    ...</span><br><span class="line">&#125;)</span><br><span class="line">    </span><br><span class="line"> <span class="comment">// 拼接请求参数的变量</span></span><br><span class="line"><span class="keyword">var</span> params = <span class="string">''</span>;</span><br><span class="line"><span class="comment">// 获取传递的参数，并遍历</span></span><br><span class="line"><span class="keyword">for</span> (<span class="keyword">var</span> attr <span class="keyword">in</span> options.data) &#123;</span><br><span class="line">    <span class="comment">// 拼接参数</span></span><br><span class="line">    params += attr + <span class="string">'='</span> + options.data[attr] + <span class="string">'&amp;'</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// 将得到的参数进行截取并重新赋值</span></span><br><span class="line">params = params.substr(<span class="number">0</span>, params.length - <span class="number">1</span>);</span><br><span class="line"><span class="comment">// 判断请求参数类型</span></span><br><span class="line"><span class="keyword">if</span> (options.type == <span class="string">'get'</span>) &#123;</span><br><span class="line">    options.url = options.url + <span class="string">'?'</span> + params;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// 配置Ajax</span></span><br><span class="line">xhr.open(options.type, options.url);</span><br><span class="line"><span class="comment">// 如果请求参数类型为post</span></span><br><span class="line"><span class="keyword">if</span> (options.type == <span class="string">'post'</span>) &#123;</span><br><span class="line">    <span class="comment">// 要设置post请求头</span></span><br><span class="line">    xhr.setRequestHeader(<span class="string">'Content-Type'</span>, <span class="string">'application/x-www-form-urlencoded'</span>);</span><br><span class="line">    xhr.send(params);</span><br><span class="line">&#125; <span class="keyword">else</span> &#123;</span><br><span class="line">    <span class="comment">// 发送请求</span></span><br><span class="line">    xhr.send()</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h3 id="请求头的选择"><a href="#请求头的选择" class="headerlink" title="请求头的选择"></a>请求头的选择</h3><p>如果调用函数时想要使用<code>application/json</code>或<code>application/x-www-form-urlencoded</code>，就可以将头文件提取出来，在调用函数时，指定想要的请求头</p>
+<p><img src="%E6%90%AD%E5%BB%BAHadoop%E4%BC%AA%E5%88%86%E5%B8%83%E5%BC%8F.assets/%E7%A3%81%E7%9B%98%E5%AE%B9%E9%87%8F.png" alt=""></p>
 <ul>
-<li>在得到指定的请求头后，要对请求头进行判断<ul>
-<li>如果是json类型：就必须将json对象转换为字符串并传递到send方法中</li>
-<li>如果是普通字符串类型：就必须将拼接的字符串传递到send方法中</li>
+<li>点击下一步，完成创建，完成后会自动启动虚拟机</li>
+</ul>
+<p><img src="%E6%90%AD%E5%BB%BAHadoop%E4%BC%AA%E5%88%86%E5%B8%83%E5%BC%8F.assets/%E5%AE%8C%E6%88%90%E5%88%9B%E5%BB%BA.png" alt=""></p>
+<ul>
+<li>在等待过程中，可以设置虚拟机的登录信息</li>
+</ul>
+<p><em>点击蓝色背景的USER CREATION</em></p>
+<p><img src="%E6%90%AD%E5%BB%BAHadoop%E4%BC%AA%E5%88%86%E5%B8%83%E5%BC%8F.assets/%E8%99%9A%E6%8B%9F%E6%9C%BA%E9%85%8D%E7%BD%AE.png" alt=""></p>
+<ul>
+<li>输入信息后，点击左上角的<strong>Done</strong></li>
+</ul>
+<p><img src="%E6%90%AD%E5%BB%BAHadoop%E4%BC%AA%E5%88%86%E5%B8%83%E5%BC%8F.assets/%E9%85%8D%E7%BD%AE%E8%AF%A6%E6%83%85.png" alt=""></p>
+<ul>
+<li>等待下方进度条完成</li>
+</ul>
+<p><img src="%E6%90%AD%E5%BB%BAHadoop%E4%BC%AA%E5%88%86%E5%B8%83%E5%BC%8F.assets/%E7%AD%89%E5%BE%85.png" alt=""></p>
+<ul>
+<li>完成后，输入密码，进入图形化界面</li>
+</ul>
+<p><img src="%E6%90%AD%E5%BB%BAHadoop%E4%BC%AA%E5%88%86%E5%B8%83%E5%BC%8F.assets/login.png" alt=""></p>
+<ul>
+<li>图形化界面</li>
+</ul>
+<p><img src="%E6%90%AD%E5%BB%BAHadoop%E4%BC%AA%E5%88%86%E5%B8%83%E5%BC%8F.assets/%E7%95%8C%E9%9D%A2.png" alt=""></p>
+<h2 id="第二部分、配置静态IP"><a href="#第二部分、配置静态IP" class="headerlink" title="第二部分、配置静态IP"></a>第二部分、配置静态IP</h2><h3 id="2-1、查看IP地址"><a href="#2-1、查看IP地址" class="headerlink" title="2.1、查看IP地址"></a>2.1、查看IP地址</h3><ul>
+<li>使用<strong>ifconfig</strong>命令，查看IP地址（以下步骤最好在root权限下执行）</li>
+</ul>
+<p><img src="%E6%90%AD%E5%BB%BAHadoop%E4%BC%AA%E5%88%86%E5%B8%83%E5%BC%8F.assets/ip.png" alt=""></p>
+<h3 id="2-2、修改IP"><a href="#2-2、修改IP" class="headerlink" title="2.2、修改IP"></a>2.2、修改IP</h3><ul>
+<li>进入<strong>/etc/sysconfig/network-scripts/</strong>目录</li>
+<li>编辑以<em>ifcfg-eth*</em>的文件，一般是eth33</li>
+</ul>
+<p><img src="%E6%90%AD%E5%BB%BAHadoop%E4%BC%AA%E5%88%86%E5%B8%83%E5%BC%8F.assets/%E5%8E%9F%E5%A7%8Beth.png" alt=""></p>
+<ul>
+<li>配置信息，网关和编辑查看自行百度</li>
+</ul>
+<p><img src="%E6%90%AD%E5%BB%BAHadoop%E4%BC%AA%E5%88%86%E5%B8%83%E5%BC%8F.assets/%E9%85%8D%E7%BD%AE.png" alt=""></p>
+<h3 id="2-3、修改主机名并配置映射"><a href="#2-3、修改主机名并配置映射" class="headerlink" title="2.3、修改主机名并配置映射"></a>2.3、修改主机名并配置映射</h3><ul>
+<li>修改主机名</li>
+<li>编辑<strong>/etc/sysconfig/network</strong>文件</li>
+</ul>
+<p><img src="%E3%80%82%E3%80%82%E5%BB%BAHadoop%E4%BC%AA%E5%88%86%E5%B8%83%E5%BC%8F.assets/%E4%BF%AE%E6%94%B9%E4%B8%BB%E6%9C%BA%E5%90%8D.png" alt=""></p>
+<ul>
+<li>配置映射</li>
+<li>编辑<strong>/etc/hosts</strong>文件，格式为<em>IP地址 主机名</em></li>
+</ul>
+<p><img src="%E6%90%AD%E5%BB%BAHadoop%E4%BC%AA%E5%88%86%E5%B8%83%E5%BC%8F.assets/%E4%B8%BB%E6%9C%BA%E6%98%A0%E5%B0%84.png" alt=""></p>
+<ul>
+<li>完成后重启虚拟机，重新查看ip</li>
+<li>可以看到主机名和IP地址均已修改</li>
+</ul>
+<p><img src="%E6%90%AD%E5%BB%BAHadoop%E4%BC%AA%E5%88%86%E5%B8%83%E5%BC%8F.assets/over.png" alt=""></p>
+<h3 id="2-4、设置免密登录"><a href="#2-4、设置免密登录" class="headerlink" title="2.4、设置免密登录"></a>2.4、设置免密登录</h3><ul>
+<li><p>设置免密登录后，在后面启动hadoop进程时就不用重复输入密码</p>
+</li>
+<li><p>输入<code>ssh-keygen -t rsa</code>，连续三次回车</p>
+</li>
+</ul>
+<p><img src="%E6%90%AD%E5%BB%BAHadoop%E4%BC%AA%E5%88%86%E5%B8%83%E5%BC%8F.assets/ssh.png" alt=""></p>
+<ul>
+<li>进入<code>./ssh</code>目录，查看文件</li>
+</ul>
+<p><img src="%E6%90%AD%E5%BB%BAHadoop%E4%BC%AA%E5%88%86%E5%B8%83%E5%BC%8F.assets/key.png" alt=""></p>
+<ul>
+<li>创建一个<em>authorized_keys</em>文件，并将公钥内容拷贝到此文件上</li>
+</ul>
+<p><img src="%E6%90%AD%E5%BB%BAHadoop%E4%BC%AA%E5%88%86%E5%B8%83%E5%BC%8F.assets/find.png" alt=""></p>
+<h3 id="2-5、关闭防火墙"><a href="#2-5、关闭防火墙" class="headerlink" title="2.5、关闭防火墙"></a>2.5、关闭防火墙</h3><ul>
+<li>查看防火墙状态：systemctl status firewalld.service</li>
+<li>关闭防火墙： systemctl stop firewalld.service</li>
+<li>开启开机自启防火墙：systemctl disable firewalld.service</li>
+</ul>
+<p><img src="%E6%90%AD%E5%BB%BAHadoop%E4%BC%AA%E5%88%86%E5%B8%83%E5%BC%8F.assets/filewall.png" alt=""></p>
+<h2 id="第三部分、配置Java和Hadoop环境"><a href="#第三部分、配置Java和Hadoop环境" class="headerlink" title="第三部分、配置Java和Hadoop环境"></a>第三部分、配置Java和Hadoop环境</h2><h3 id="3-1、下载软件，并解压"><a href="#3-1、下载软件，并解压" class="headerlink" title="3.1、下载软件，并解压"></a>3.1、下载软件，并解压</h3><ul>
+<li><p>此项可以先在window中先下载安装包，在通过xftp传到虚拟机中</p>
+</li>
+<li><p>可以先在虚拟机中新建文件夹，将所需软件都放到该文件夹中</p>
+</li>
+<li><p>如果不能传输，可以给该文件夹赋予权限<code>chmod 777 apps/</code></p>
+</li>
+<li><p>使用<code>tar -zxvf 文件名</code>解压</p>
+</li>
+<li><p>使用<code>mv 文件名 新文件名</code>对文件进行重命名</p>
+</li>
+</ul>
+<h3 id="3-2、配置环境变量"><a href="#3-2、配置环境变量" class="headerlink" title="3.2、配置环境变量"></a>3.2、配置环境变量</h3><ul>
+<li>编辑<code>/etc/profile</code>文件</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">export JAVA_HOME&#x3D;&#x2F;opt&#x2F;apps&#x2F;jdk</span><br><span class="line">export HADOOP_HOME&#x3D;&#x2F;opt&#x2F;apps&#x2F;hadoop</span><br><span class="line">export PATH&#x3D;$PATH:$JAVA_HOME&#x2F;bin:$HADOOP_HOME&#x2F;bin:$HADOOP_HOME&#x2F;sbin</span><br></pre></td></tr></table></figure>
+
+<p><img src="%E6%90%AD%E5%BB%BAHadoop%E4%BC%AA%E5%88%86%E5%B8%83%E5%BC%8F.assets/hadoop.png" alt=""></p>
+<ul>
+<li><p>执行<code>source /etc/profile</code>，刷新配置文件</p>
+</li>
+<li><p>使用<code>java -version</code>查看是否安装成功以及安装版本</p>
+</li>
+</ul>
+<p>![](搭建Hadoop伪分布式.assets/java success.png)</p>
+<ul>
+<li>使用<code>hadoop version</code>查看hadoop</li>
+</ul>
+<p><img src="%E6%90%AD%E5%BB%BAHadoop%E4%BC%AA%E5%88%86%E5%B8%83%E5%BC%8F.assets/version.png" alt=""></p>
+<h2 id="第四部分、配置Hadoop文件参数"><a href="#第四部分、配置Hadoop文件参数" class="headerlink" title="第四部分、配置Hadoop文件参数"></a>第四部分、配置Hadoop文件参数</h2><ul>
+<li>首先进入配置文件的目录(在安装好的文件目录下)：<code>/opt/apps/hadoop/etc/hadoop</code></li>
+</ul>
+<h3 id="4-1、hadoop-env-sh"><a href="#4-1、hadoop-env-sh" class="headerlink" title="4.1、hadoop-env.sh"></a>4.1、hadoop-env.sh</h3><p><img src="%E6%90%AD%E5%BB%BAHadoop%E4%BC%AA%E5%88%86%E5%B8%83%E5%BC%8F.assets/hadoop-env.png" alt=""></p>
+<h3 id="4-2、core-site-xml"><a href="#4-2、core-site-xml" class="headerlink" title="4.2、core-site.xml"></a>4.2、core-site.xml</h3><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">property</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">name</span>&gt;</span>fs.defaultFS<span class="tag">&lt;/<span class="name">name</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">value</span>&gt;</span>hdfs://本机名或IP:9000<span class="tag">&lt;/<span class="name">value</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">property</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">name</span>&gt;</span>hadoop.tmp.dir<span class="tag">&lt;/<span class="name">name</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">value</span>&gt;</span>/usr/hadoop/tmp<span class="tag">&lt;/<span class="name">value</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p><img src="%E6%90%AD%E5%BB%BAHadoop%E4%BC%AA%E5%88%86%E5%B8%83%E5%BC%8F.assets/core-site.png" alt=""></p>
+<h3 id="4-3、hdfs-site-xml"><a href="#4-3、hdfs-site-xml" class="headerlink" title="4.3、hdfs-site.xml"></a>4.3、hdfs-site.xml</h3><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">property</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">name</span>&gt;</span>dfs.namenode.name.dir<span class="tag">&lt;/<span class="name">name</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">value</span>&gt;</span>/usr/hadoop/tmp/name<span class="tag">&lt;/<span class="name">value</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">description</span>&gt;</span>为了保证元数据的安全一般配置多个不同目录<span class="tag">&lt;/<span class="name">description</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="name">property</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">name</span>&gt;</span>dfs.datanode.data.dir<span class="tag">&lt;/<span class="name">name</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">value</span>&gt;</span>/usr/hadoop/tmp/data<span class="tag">&lt;/<span class="name">value</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">description</span>&gt;</span>datanode 的数据存储目录<span class="tag">&lt;/<span class="name">description</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="name">property</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">name</span>&gt;</span>dfs.replication<span class="tag">&lt;/<span class="name">name</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">value</span>&gt;</span>2<span class="tag">&lt;/<span class="name">value</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">description</span>&gt;</span>HDFS 的数据块的副本存储个数, 默认是3<span class="tag">&lt;/<span class="name">description</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p><img src="%E6%90%AD%E5%BB%BAHadoop%E4%BC%AA%E5%88%86%E5%B8%83%E5%BC%8F.assets/hdfs-site.png" alt=""></p>
+<h3 id="4-4、mapreduce-site-xml"><a href="#4-4、mapreduce-site-xml" class="headerlink" title="4.4、mapreduce-site.xml"></a>4.4、mapreduce-site.xml</h3><ul>
+<li>因为没有此文件，所以要从<em>mapreduce-site.xml.template</em> 拷贝</li>
+<li><em>cp  mapreduce-site.xml.template  mapreduce-site.xml</em></li>
+</ul>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">property</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">name</span>&gt;</span>mapreduce.framework.name<span class="tag">&lt;/<span class="name">name</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">value</span>&gt;</span>yarn<span class="tag">&lt;/<span class="name">value</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p><img src="%E6%90%AD%E5%BB%BAHadoop%E4%BC%AA%E5%88%86%E5%B8%83%E5%BC%8F.assets/mapredice-site.png" alt=""></p>
+<h3 id="4-5、yarn-site-xml"><a href="#4-5、yarn-site-xml" class="headerlink" title="4.5、yarn-site.xml"></a>4.5、yarn-site.xml</h3><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">property</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">name</span>&gt;</span>yarn.resourcemanager.hostname<span class="tag">&lt;/<span class="name">name</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">value</span>&gt;</span>本机名或IP<span class="tag">&lt;/<span class="name">value</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">property</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">name</span>&gt;</span>yarn.nodemanager.aux-services<span class="tag">&lt;/<span class="name">name</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">value</span>&gt;</span>mapreduce_shuffle<span class="tag">&lt;/<span class="name">value</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">property</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">name</span>&gt;</span>yarn.nodemanager.resource.memory-mb<span class="tag">&lt;/<span class="name">name</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">value</span>&gt;</span>1024<span class="tag">&lt;/<span class="name">value</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">property</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">name</span>&gt;</span>yarn.nodemanager.resource.cpu-vcores<span class="tag">&lt;/<span class="name">name</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">value</span>&gt;</span>1<span class="tag">&lt;/<span class="name">value</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p><img src="%E6%90%AD%E5%BB%BAHadoop%E4%BC%AA%E5%88%86%E5%B8%83%E5%BC%8F.assets/yarn-site.png" alt=""></p>
+<h3 id="4-6、Hadoop初始化"><a href="#4-6、Hadoop初始化" class="headerlink" title="4.6、Hadoop初始化"></a>4.6、Hadoop初始化</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">hadoop namenode -format</span><br></pre></td></tr></table></figure>
+
+<p><img src="%E6%90%AD%E5%BB%BAHadoop%E4%BC%AA%E5%88%86%E5%B8%83%E5%BC%8F.assets/format.png" alt=""></p>
+<h2 id="第五部分、启动"><a href="#第五部分、启动" class="headerlink" title="第五部分、启动"></a>第五部分、启动</h2><h3 id="5-1、启动进程"><a href="#5-1、启动进程" class="headerlink" title="5.1、启动进程"></a>5.1、启动进程</h3><ul>
+<li>进入<em>/opt/apps/hadoop/sbin</em>中</li>
+<li>使用<em>./start-all.sh*启动全部，也可单独启动</em>./start-dfs.sh<em>和</em>./start-yarn.sh*</li>
+</ul>
+<p><img src="%E6%90%AD%E5%BB%BAHadoop%E4%BC%AA%E5%88%86%E5%B8%83%E5%BC%8F.assets/start.png" alt=""></p>
+<h3 id="5-2、查看进程"><a href="#5-2、查看进程" class="headerlink" title="5.2、查看进程"></a>5.2、查看进程</h3><ul>
+<li>使用<strong>jps</strong>查看进程</li>
+</ul>
+<p><img src="%E6%90%AD%E5%BB%BAHadoop%E4%BC%AA%E5%88%86%E5%B8%83%E5%BC%8F.assets/jps.png" alt=""></p>
+<h3 id="5-3、查看网页"><a href="#5-3、查看网页" class="headerlink" title="5.3、查看网页"></a>5.3、查看网页</h3><ul>
+<li>查看50070端口</li>
+</ul>
+<p><img src="../assets/" alt=""></p>
+<ul>
+<li>查看8088端口)</li>
+</ul>
+<p><img src="%E6%90%AD%E5%BB%BAHadoop%E4%BC%AA%E5%88%86%E5%B8%83%E5%BC%8F.assets/8088-1598754225379.png" alt=""></p>
+<h2 id="第六部分、总结"><a href="#第六部分、总结" class="headerlink" title="第六部分、总结"></a>第六部分、总结</h2><p>配置伪分布式时，最主要的是hadoop的配置文件，其他的只要细心，基本上没有什么错误。在配置过程中，总结了以下几点错误</p>
+<ul>
+<li><p>初始化Hadoop不成功</p>
+<ul>
+<li>查看错误日志，检查配置文件或其它信息</li>
+<li>再次初始化前，一定要先删除临时存储文件的目录</li>
+</ul>
+</li>
+<li><p>启动nodeManage时，有可能莫名其妙的关闭</p>
+<ul>
+<li>添加<em>yarn-site.xml</em>的内存和cpu的配置文件后，就可以长久存在。</li>
 </ul>
 </li>
 </ul>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">ajax(&#123;</span><br><span class="line">    ...</span><br><span class="line">     header: &#123;</span><br><span class="line">         <span class="string">'Content-Type'</span>: <span class="string">'application/json'</span></span><br><span class="line">     &#125;,</span><br><span class="line">    ...</span><br><span class="line">&#125;)</span><br><span class="line">    </span><br><span class="line"><span class="comment">// 得到想要设置的请求头</span></span><br><span class="line"><span class="keyword">var</span> ContentType = options.header[<span class="string">'Content-Type'</span>];</span><br><span class="line"><span class="comment">// 要设置post请求头</span></span><br><span class="line">xhr.setRequestHeader(<span class="string">'Content-Type'</span>, ContentType);</span><br><span class="line"><span class="comment">// 判读请求头的类型</span></span><br><span class="line"><span class="keyword">if</span> (ContentType == <span class="string">'application/json'</span>) &#123;</span><br><span class="line">    <span class="comment">// 如果传递的是json数据类型，就必须将json对象转换为字符串传递到send方法中</span></span><br><span class="line">    xhr.send(<span class="built_in">JSON</span>.stringify(options.data));</span><br><span class="line">&#125; <span class="keyword">else</span> &#123;</span><br><span class="line">    xhr.send(params);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-<h3 id="对响应的状态进行操作"><a href="#对响应的状态进行操作" class="headerlink" title="对响应的状态进行操作"></a>对响应的状态进行操作</h3><p>在执行onload事件时，客户端会得到服务端响应的状态码，如果状态码为<strong>200</strong>则代表成功，若是其他的状态码，则代表失败。可以分别创建成功和失败的函数，用来返回信息</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">ajax(&#123;</span><br><span class="line">    ...</span><br><span class="line">    success: <span class="function"><span class="keyword">function</span> (<span class="params">data, xhr</span>) </span>&#123;</span><br><span class="line">        <span class="built_in">console</span>.log(<span class="string">'这是success函数'</span>);</span><br><span class="line">        <span class="built_in">console</span>.log(data)</span><br><span class="line">        <span class="built_in">console</span>.log(xhr)</span><br><span class="line">    &#125;,</span><br><span class="line">    error: <span class="function"><span class="keyword">function</span> (<span class="params">err, xhr</span>) </span>&#123;</span><br><span class="line">        <span class="built_in">console</span>.log(<span class="string">'这是error函数'</span>);</span><br><span class="line">        <span class="built_in">console</span>.log(err)</span><br><span class="line">    &#125;</span><br><span class="line">    ...</span><br><span class="line">&#125;)</span><br><span class="line"></span><br><span class="line">xhr.onload = <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="comment">// 判断http状态码</span></span><br><span class="line">    <span class="keyword">if</span> (xhr.status == <span class="number">200</span>) &#123;</span><br><span class="line">        <span class="comment">// 请求成功 </span></span><br><span class="line">        options.success(xhr.responseText, xhr);</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        <span class="comment">// 请求失败</span></span><br><span class="line">        options.error(xhr.responseText, xhr);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
-
-<h3 id="对服务器返回数据的类型判断"><a href="#对服务器返回数据的类型判断" class="headerlink" title="对服务器返回数据的类型判断"></a>对服务器返回数据的类型判断</h3><p>如果服务端响应的是json类型时，客户端得到的时json字符串，因此要把json字符串转换为json对象。应该对请求头进行判断。若请求头时<code>application/json</code>时，就应该将json字符串转换为json对象</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"> <span class="comment">// 获得请求头的信息</span></span><br><span class="line"><span class="keyword">var</span> ContentType = xhr.getResponseHeader(<span class="string">'Content-Type'</span>);</span><br><span class="line"><span class="comment">// 获得服务器返回的数据</span></span><br><span class="line"><span class="keyword">var</span> responseText = xhr.responseText;</span><br><span class="line"><span class="comment">// 对请求头类型进行判断</span></span><br><span class="line"><span class="keyword">if</span> (ContentType.includes(<span class="string">'application/json'</span>)) &#123;</span><br><span class="line">    <span class="comment">// 将响应的json字符串转换成json对象</span></span><br><span class="line">    responseText = <span class="built_in">JSON</span>.parse(responseText)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 响应json数据格式路由</span></span><br><span class="line">app.use(<span class="string">'/responseText'</span>, (req, res) =&gt; &#123;</span><br><span class="line">    res.send(&#123;<span class="string">'name'</span>:<span class="string">'张三'</span>&#125;)</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
-
-<h3 id="简化函数传递的参数"><a href="#简化函数传递的参数" class="headerlink" title="简化函数传递的参数"></a>简化函数传递的参数</h3><p>如果在函数中先声明一个对象，对象中存放默认的数据，当要改变某个参数值时，就传递哪一个属性。这样就可以简化调用函数时复杂的形参个数</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 创建默认的参数数值</span></span><br><span class="line"><span class="keyword">var</span> defaults = &#123;</span><br><span class="line">    type: <span class="string">'get'</span>,</span><br><span class="line">    url: <span class="string">''</span>,</span><br><span class="line">    data: &#123;&#125;,</span><br><span class="line">    header: &#123;</span><br><span class="line">        <span class="string">'Content-Type'</span>: <span class="string">'application/x-www-form-urlencoded'</span></span><br><span class="line">    &#125;,</span><br><span class="line">    success: <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123; &#125;</span><br><span class="line">&#125;;</span><br><span class="line"><span class="comment">// 用options的值替换defaults的值</span></span><br><span class="line"><span class="built_in">Object</span>.assign(defaults, options);</span><br></pre></td></tr></table></figure>
       
 
       
@@ -287,7 +424,7 @@
 		<ul class="article-tag-list">
 			 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">Ajax</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">Hadoop</a>
         		</li>
       		
 		</ul>
@@ -343,7 +480,7 @@
     <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
     <p>扫一扫，分享到微信</p>
     <div class="wx-qrcode">
-      <img src="//pan.baidu.com/share/qrcode?url=http://yoursite.com/2020/07/19/Ajax%E5%B0%81%E8%A3%85%E5%87%BD%E6%95%B0/" alt="微信分享二维码">
+      <img src="//pan.baidu.com/share/qrcode?url=http://yoursite.com/2020/08/28/%E6%90%AD%E5%BB%BAHadoop%E4%BC%AA%E5%88%86%E5%B8%83%E5%BC%8F/" alt="微信分享二维码">
     </div>
 </div>
 
@@ -357,18 +494,9 @@
   
 <nav id="article-nav">
   
-    <a href="/2020/08/28/%E6%90%AD%E5%BB%BAHadoop%E4%BC%AA%E5%88%86%E5%B8%83%E5%BC%8F/" id="article-nav-newer" class="article-nav-link-wrap">
-      <i class="icon-circle-left"></i>
-      <div class="article-nav-title">
-        
-          搭建Hadoop伪分布式
-        
-      </div>
-    </a>
   
-  
-    <a href="/2020/07/14/Nodejs%20%E4%B9%8Bhttp/" id="article-nav-older" class="article-nav-link-wrap">
-      <div class="article-nav-title">Nodejs 之 http的数据传输</div>
+    <a href="/2020/07/19/Ajax%E5%B0%81%E8%A3%85%E5%87%BD%E6%95%B0/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">Ajax封装函数</div>
       <i class="icon-circle-right"></i>
     </a>
   

@@ -152,6 +152,260 @@
           <div id="js-content" class="content-ll">
             
   
+    <article id="post-搭建Hadoop伪分布式" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2020/08/28/%E6%90%AD%E5%BB%BAHadoop%E4%BC%AA%E5%88%86%E5%B8%83%E5%BC%8F/">搭建Hadoop伪分布式</a>
+    </h1>
+  
+
+        
+        <a href="/2020/08/28/%E6%90%AD%E5%BB%BAHadoop%E4%BC%AA%E5%88%86%E5%B8%83%E5%BC%8F/" class="archive-article-date">
+  	<time datetime="2020-08-28T12:42:33.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-08-28</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="第一部分、创建虚拟机"><a href="#第一部分、创建虚拟机" class="headerlink" title="第一部分、创建虚拟机"></a>第一部分、创建虚拟机</h2><h3 id="1-1、下载软件"><a href="#1-1、下载软件" class="headerlink" title="1.1、下载软件"></a>1.1、下载软件</h3><ul>
+<li>下载<strong>vmware workstation</strong>，具体破解版自行百度</li>
+</ul>
+<h3 id="1-2、创建虚拟机"><a href="#1-2、创建虚拟机" class="headerlink" title="1.2、创建虚拟机"></a>1.2、创建虚拟机</h3><ul>
+<li>新建一个虚拟机，选择<strong>典型</strong>即可</li>
+</ul>
+<p><img src="%E6%90%AD%E5%BB%BAHadoop%E4%BC%AA%E5%88%86%E5%B8%83%E5%BC%8F.assets/%E5%88%9B%E5%BB%BA%E8%99%9A%E6%8B%9F%E6%9C%BA.png" alt=""></p>
+<ul>
+<li>点击下一步，选择虚拟机镜像，我的是<strong>centos 7</strong></li>
+</ul>
+<p><img src="%E6%90%AD%E5%BB%BAHadoop%E4%BC%AA%E5%88%86%E5%B8%83%E5%BC%8F.assets/%E9%80%89%E6%8B%A9%E9%95%9C%E5%83%8F.png" alt=""></p>
+<ul>
+<li></li>
+<li>点击下一步，输入信息</li>
+</ul>
+<p><img src="%E6%90%AD%E5%BB%BAHadoop%E4%BC%AA%E5%88%86%E5%B8%83%E5%BC%8F.assets/%E8%BE%93%E5%85%A5%E4%BF%A1%E6%81%AF-1598619762586.png" alt=""></p>
+<ul>
+<li>点击下一步，选择虚拟机存放路径</li>
+</ul>
+<p><img src="%E6%90%AD%E5%BB%BAHadoop%E4%BC%AA%E5%88%86%E5%B8%83%E5%BC%8F.assets/%E9%80%89%E6%8B%A9%E4%BD%8D%E7%BD%AE-1598619778723.png" alt=""></p>
+<ul>
+<li>点击下一步，配置磁盘的容量</li>
+</ul>
+<p><img src="%E6%90%AD%E5%BB%BAHadoop%E4%BC%AA%E5%88%86%E5%B8%83%E5%BC%8F.assets/%E7%A3%81%E7%9B%98%E5%AE%B9%E9%87%8F.png" alt=""></p>
+<ul>
+<li>点击下一步，完成创建，完成后会自动启动虚拟机</li>
+</ul>
+<p><img src="%E6%90%AD%E5%BB%BAHadoop%E4%BC%AA%E5%88%86%E5%B8%83%E5%BC%8F.assets/%E5%AE%8C%E6%88%90%E5%88%9B%E5%BB%BA.png" alt=""></p>
+<ul>
+<li>在等待过程中，可以设置虚拟机的登录信息</li>
+</ul>
+<p><em>点击蓝色背景的USER CREATION</em></p>
+<p><img src="%E6%90%AD%E5%BB%BAHadoop%E4%BC%AA%E5%88%86%E5%B8%83%E5%BC%8F.assets/%E8%99%9A%E6%8B%9F%E6%9C%BA%E9%85%8D%E7%BD%AE.png" alt=""></p>
+<ul>
+<li>输入信息后，点击左上角的<strong>Done</strong></li>
+</ul>
+<p><img src="%E6%90%AD%E5%BB%BAHadoop%E4%BC%AA%E5%88%86%E5%B8%83%E5%BC%8F.assets/%E9%85%8D%E7%BD%AE%E8%AF%A6%E6%83%85.png" alt=""></p>
+<ul>
+<li>等待下方进度条完成</li>
+</ul>
+<p><img src="%E6%90%AD%E5%BB%BAHadoop%E4%BC%AA%E5%88%86%E5%B8%83%E5%BC%8F.assets/%E7%AD%89%E5%BE%85.png" alt=""></p>
+<ul>
+<li>完成后，输入密码，进入图形化界面</li>
+</ul>
+<p><img src="%E6%90%AD%E5%BB%BAHadoop%E4%BC%AA%E5%88%86%E5%B8%83%E5%BC%8F.assets/login.png" alt=""></p>
+<ul>
+<li>图形化界面</li>
+</ul>
+<p><img src="%E6%90%AD%E5%BB%BAHadoop%E4%BC%AA%E5%88%86%E5%B8%83%E5%BC%8F.assets/%E7%95%8C%E9%9D%A2.png" alt=""></p>
+<h2 id="第二部分、配置静态IP"><a href="#第二部分、配置静态IP" class="headerlink" title="第二部分、配置静态IP"></a>第二部分、配置静态IP</h2><h3 id="2-1、查看IP地址"><a href="#2-1、查看IP地址" class="headerlink" title="2.1、查看IP地址"></a>2.1、查看IP地址</h3><ul>
+<li>使用<strong>ifconfig</strong>命令，查看IP地址（以下步骤最好在root权限下执行）</li>
+</ul>
+<p><img src="%E6%90%AD%E5%BB%BAHadoop%E4%BC%AA%E5%88%86%E5%B8%83%E5%BC%8F.assets/ip.png" alt=""></p>
+<h3 id="2-2、修改IP"><a href="#2-2、修改IP" class="headerlink" title="2.2、修改IP"></a>2.2、修改IP</h3><ul>
+<li>进入<strong>/etc/sysconfig/network-scripts/</strong>目录</li>
+<li>编辑以<em>ifcfg-eth*</em>的文件，一般是eth33</li>
+</ul>
+<p><img src="%E6%90%AD%E5%BB%BAHadoop%E4%BC%AA%E5%88%86%E5%B8%83%E5%BC%8F.assets/%E5%8E%9F%E5%A7%8Beth.png" alt=""></p>
+<ul>
+<li>配置信息，网关和编辑查看自行百度</li>
+</ul>
+<p><img src="%E6%90%AD%E5%BB%BAHadoop%E4%BC%AA%E5%88%86%E5%B8%83%E5%BC%8F.assets/%E9%85%8D%E7%BD%AE.png" alt=""></p>
+<h3 id="2-3、修改主机名并配置映射"><a href="#2-3、修改主机名并配置映射" class="headerlink" title="2.3、修改主机名并配置映射"></a>2.3、修改主机名并配置映射</h3><ul>
+<li>修改主机名</li>
+<li>编辑<strong>/etc/sysconfig/network</strong>文件</li>
+</ul>
+<p><img src="%E3%80%82%E3%80%82%E5%BB%BAHadoop%E4%BC%AA%E5%88%86%E5%B8%83%E5%BC%8F.assets/%E4%BF%AE%E6%94%B9%E4%B8%BB%E6%9C%BA%E5%90%8D.png" alt=""></p>
+<ul>
+<li>配置映射</li>
+<li>编辑<strong>/etc/hosts</strong>文件，格式为<em>IP地址 主机名</em></li>
+</ul>
+<p><img src="%E6%90%AD%E5%BB%BAHadoop%E4%BC%AA%E5%88%86%E5%B8%83%E5%BC%8F.assets/%E4%B8%BB%E6%9C%BA%E6%98%A0%E5%B0%84.png" alt=""></p>
+<ul>
+<li>完成后重启虚拟机，重新查看ip</li>
+<li>可以看到主机名和IP地址均已修改</li>
+</ul>
+<p><img src="%E6%90%AD%E5%BB%BAHadoop%E4%BC%AA%E5%88%86%E5%B8%83%E5%BC%8F.assets/over.png" alt=""></p>
+<h3 id="2-4、设置免密登录"><a href="#2-4、设置免密登录" class="headerlink" title="2.4、设置免密登录"></a>2.4、设置免密登录</h3><ul>
+<li><p>设置免密登录后，在后面启动hadoop进程时就不用重复输入密码</p>
+</li>
+<li><p>输入<code>ssh-keygen -t rsa</code>，连续三次回车</p>
+</li>
+</ul>
+<p><img src="%E6%90%AD%E5%BB%BAHadoop%E4%BC%AA%E5%88%86%E5%B8%83%E5%BC%8F.assets/ssh.png" alt=""></p>
+<ul>
+<li>进入<code>./ssh</code>目录，查看文件</li>
+</ul>
+<p><img src="%E6%90%AD%E5%BB%BAHadoop%E4%BC%AA%E5%88%86%E5%B8%83%E5%BC%8F.assets/key.png" alt=""></p>
+<ul>
+<li>创建一个<em>authorized_keys</em>文件，并将公钥内容拷贝到此文件上</li>
+</ul>
+<p><img src="%E6%90%AD%E5%BB%BAHadoop%E4%BC%AA%E5%88%86%E5%B8%83%E5%BC%8F.assets/find.png" alt=""></p>
+<h3 id="2-5、关闭防火墙"><a href="#2-5、关闭防火墙" class="headerlink" title="2.5、关闭防火墙"></a>2.5、关闭防火墙</h3><ul>
+<li>查看防火墙状态：systemctl status firewalld.service</li>
+<li>关闭防火墙： systemctl stop firewalld.service</li>
+<li>开启开机自启防火墙：systemctl disable firewalld.service</li>
+</ul>
+<p><img src="%E6%90%AD%E5%BB%BAHadoop%E4%BC%AA%E5%88%86%E5%B8%83%E5%BC%8F.assets/filewall.png" alt=""></p>
+<h2 id="第三部分、配置Java和Hadoop环境"><a href="#第三部分、配置Java和Hadoop环境" class="headerlink" title="第三部分、配置Java和Hadoop环境"></a>第三部分、配置Java和Hadoop环境</h2><h3 id="3-1、下载软件，并解压"><a href="#3-1、下载软件，并解压" class="headerlink" title="3.1、下载软件，并解压"></a>3.1、下载软件，并解压</h3><ul>
+<li><p>此项可以先在window中先下载安装包，在通过xftp传到虚拟机中</p>
+</li>
+<li><p>可以先在虚拟机中新建文件夹，将所需软件都放到该文件夹中</p>
+</li>
+<li><p>如果不能传输，可以给该文件夹赋予权限<code>chmod 777 apps/</code></p>
+</li>
+<li><p>使用<code>tar -zxvf 文件名</code>解压</p>
+</li>
+<li><p>使用<code>mv 文件名 新文件名</code>对文件进行重命名</p>
+</li>
+</ul>
+<h3 id="3-2、配置环境变量"><a href="#3-2、配置环境变量" class="headerlink" title="3.2、配置环境变量"></a>3.2、配置环境变量</h3><ul>
+<li>编辑<code>/etc/profile</code>文件</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">export JAVA_HOME&#x3D;&#x2F;opt&#x2F;apps&#x2F;jdk</span><br><span class="line">export HADOOP_HOME&#x3D;&#x2F;opt&#x2F;apps&#x2F;hadoop</span><br><span class="line">export PATH&#x3D;$PATH:$JAVA_HOME&#x2F;bin:$HADOOP_HOME&#x2F;bin:$HADOOP_HOME&#x2F;sbin</span><br></pre></td></tr></table></figure>
+
+<p><img src="%E6%90%AD%E5%BB%BAHadoop%E4%BC%AA%E5%88%86%E5%B8%83%E5%BC%8F.assets/hadoop.png" alt=""></p>
+<ul>
+<li><p>执行<code>source /etc/profile</code>，刷新配置文件</p>
+</li>
+<li><p>使用<code>java -version</code>查看是否安装成功以及安装版本</p>
+</li>
+</ul>
+<p>![](搭建Hadoop伪分布式.assets/java success.png)</p>
+<ul>
+<li>使用<code>hadoop version</code>查看hadoop</li>
+</ul>
+<p><img src="%E6%90%AD%E5%BB%BAHadoop%E4%BC%AA%E5%88%86%E5%B8%83%E5%BC%8F.assets/version.png" alt=""></p>
+<h2 id="第四部分、配置Hadoop文件参数"><a href="#第四部分、配置Hadoop文件参数" class="headerlink" title="第四部分、配置Hadoop文件参数"></a>第四部分、配置Hadoop文件参数</h2><ul>
+<li>首先进入配置文件的目录(在安装好的文件目录下)：<code>/opt/apps/hadoop/etc/hadoop</code></li>
+</ul>
+<h3 id="4-1、hadoop-env-sh"><a href="#4-1、hadoop-env-sh" class="headerlink" title="4.1、hadoop-env.sh"></a>4.1、hadoop-env.sh</h3><p><img src="%E6%90%AD%E5%BB%BAHadoop%E4%BC%AA%E5%88%86%E5%B8%83%E5%BC%8F.assets/hadoop-env.png" alt=""></p>
+<h3 id="4-2、core-site-xml"><a href="#4-2、core-site-xml" class="headerlink" title="4.2、core-site.xml"></a>4.2、core-site.xml</h3><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">property</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">name</span>&gt;</span>fs.defaultFS<span class="tag">&lt;/<span class="name">name</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">value</span>&gt;</span>hdfs://本机名或IP:9000<span class="tag">&lt;/<span class="name">value</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">property</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">name</span>&gt;</span>hadoop.tmp.dir<span class="tag">&lt;/<span class="name">name</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">value</span>&gt;</span>/usr/hadoop/tmp<span class="tag">&lt;/<span class="name">value</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p><img src="%E6%90%AD%E5%BB%BAHadoop%E4%BC%AA%E5%88%86%E5%B8%83%E5%BC%8F.assets/core-site.png" alt=""></p>
+<h3 id="4-3、hdfs-site-xml"><a href="#4-3、hdfs-site-xml" class="headerlink" title="4.3、hdfs-site.xml"></a>4.3、hdfs-site.xml</h3><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">property</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">name</span>&gt;</span>dfs.namenode.name.dir<span class="tag">&lt;/<span class="name">name</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">value</span>&gt;</span>/usr/hadoop/tmp/name<span class="tag">&lt;/<span class="name">value</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">description</span>&gt;</span>为了保证元数据的安全一般配置多个不同目录<span class="tag">&lt;/<span class="name">description</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="name">property</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">name</span>&gt;</span>dfs.datanode.data.dir<span class="tag">&lt;/<span class="name">name</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">value</span>&gt;</span>/usr/hadoop/tmp/data<span class="tag">&lt;/<span class="name">value</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">description</span>&gt;</span>datanode 的数据存储目录<span class="tag">&lt;/<span class="name">description</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="name">property</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">name</span>&gt;</span>dfs.replication<span class="tag">&lt;/<span class="name">name</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">value</span>&gt;</span>2<span class="tag">&lt;/<span class="name">value</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">description</span>&gt;</span>HDFS 的数据块的副本存储个数, 默认是3<span class="tag">&lt;/<span class="name">description</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p><img src="%E6%90%AD%E5%BB%BAHadoop%E4%BC%AA%E5%88%86%E5%B8%83%E5%BC%8F.assets/hdfs-site.png" alt=""></p>
+<h3 id="4-4、mapreduce-site-xml"><a href="#4-4、mapreduce-site-xml" class="headerlink" title="4.4、mapreduce-site.xml"></a>4.4、mapreduce-site.xml</h3><ul>
+<li>因为没有此文件，所以要从<em>mapreduce-site.xml.template</em> 拷贝</li>
+<li><em>cp  mapreduce-site.xml.template  mapreduce-site.xml</em></li>
+</ul>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">property</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">name</span>&gt;</span>mapreduce.framework.name<span class="tag">&lt;/<span class="name">name</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">value</span>&gt;</span>yarn<span class="tag">&lt;/<span class="name">value</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p><img src="%E6%90%AD%E5%BB%BAHadoop%E4%BC%AA%E5%88%86%E5%B8%83%E5%BC%8F.assets/mapredice-site.png" alt=""></p>
+<h3 id="4-5、yarn-site-xml"><a href="#4-5、yarn-site-xml" class="headerlink" title="4.5、yarn-site.xml"></a>4.5、yarn-site.xml</h3><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">property</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">name</span>&gt;</span>yarn.resourcemanager.hostname<span class="tag">&lt;/<span class="name">name</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">value</span>&gt;</span>本机名或IP<span class="tag">&lt;/<span class="name">value</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">property</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">name</span>&gt;</span>yarn.nodemanager.aux-services<span class="tag">&lt;/<span class="name">name</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">value</span>&gt;</span>mapreduce_shuffle<span class="tag">&lt;/<span class="name">value</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">property</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">name</span>&gt;</span>yarn.nodemanager.resource.memory-mb<span class="tag">&lt;/<span class="name">name</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">value</span>&gt;</span>1024<span class="tag">&lt;/<span class="name">value</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">property</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">name</span>&gt;</span>yarn.nodemanager.resource.cpu-vcores<span class="tag">&lt;/<span class="name">name</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">value</span>&gt;</span>1<span class="tag">&lt;/<span class="name">value</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p><img src="%E6%90%AD%E5%BB%BAHadoop%E4%BC%AA%E5%88%86%E5%B8%83%E5%BC%8F.assets/yarn-site.png" alt=""></p>
+<h3 id="4-6、Hadoop初始化"><a href="#4-6、Hadoop初始化" class="headerlink" title="4.6、Hadoop初始化"></a>4.6、Hadoop初始化</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">hadoop namenode -format</span><br></pre></td></tr></table></figure>
+
+<p><img src="%E6%90%AD%E5%BB%BAHadoop%E4%BC%AA%E5%88%86%E5%B8%83%E5%BC%8F.assets/format.png" alt=""></p>
+<h2 id="第五部分、启动"><a href="#第五部分、启动" class="headerlink" title="第五部分、启动"></a>第五部分、启动</h2><h3 id="5-1、启动进程"><a href="#5-1、启动进程" class="headerlink" title="5.1、启动进程"></a>5.1、启动进程</h3><ul>
+<li>进入<em>/opt/apps/hadoop/sbin</em>中</li>
+<li>使用<em>./start-all.sh*启动全部，也可单独启动</em>./start-dfs.sh<em>和</em>./start-yarn.sh*</li>
+</ul>
+<p><img src="%E6%90%AD%E5%BB%BAHadoop%E4%BC%AA%E5%88%86%E5%B8%83%E5%BC%8F.assets/start.png" alt=""></p>
+<h3 id="5-2、查看进程"><a href="#5-2、查看进程" class="headerlink" title="5.2、查看进程"></a>5.2、查看进程</h3><ul>
+<li>使用<strong>jps</strong>查看进程</li>
+</ul>
+<p><img src="%E6%90%AD%E5%BB%BAHadoop%E4%BC%AA%E5%88%86%E5%B8%83%E5%BC%8F.assets/jps.png" alt=""></p>
+<h3 id="5-3、查看网页"><a href="#5-3、查看网页" class="headerlink" title="5.3、查看网页"></a>5.3、查看网页</h3><ul>
+<li>查看50070端口</li>
+</ul>
+<p><img src="../assets/" alt=""></p>
+<ul>
+<li>查看8088端口)</li>
+</ul>
+<p><img src="%E6%90%AD%E5%BB%BAHadoop%E4%BC%AA%E5%88%86%E5%B8%83%E5%BC%8F.assets/8088-1598754225379.png" alt=""></p>
+<h2 id="第六部分、总结"><a href="#第六部分、总结" class="headerlink" title="第六部分、总结"></a>第六部分、总结</h2><p>配置伪分布式时，最主要的是hadoop的配置文件，其他的只要细心，基本上没有什么错误。在配置过程中，总结了以下几点错误</p>
+<ul>
+<li><p>初始化Hadoop不成功</p>
+<ul>
+<li>查看错误日志，检查配置文件或其它信息</li>
+<li>再次初始化前，一定要先删除临时存储文件的目录</li>
+</ul>
+</li>
+<li><p>启动nodeManage时，有可能莫名其妙的关闭</p>
+<ul>
+<li>添加<em>yarn-site.xml</em>的内存和cpu的配置文件后，就可以长久存在。</li>
+</ul>
+</li>
+</ul>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">Hadoop</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2020/08/28/%E6%90%AD%E5%BB%BAHadoop%E4%BC%AA%E5%88%86%E5%B8%83%E5%BC%8F/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
     <article id="post-Ajax封装函数" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -538,6 +792,10 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">Ajax</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color2">Hadoop</a>
               </li>
             
             <div class="clearfix"></div>

@@ -6,19 +6,14 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <link rel="dns-prefetch" href="http://yoursite.com">
-  <title>Ajax封装函数 | Hexo</title>
+  <title>Tag: Hadoop | Hexo</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="问题：当要发送多次Ajax请求时，每次发送都要写一遍Ajax请求，会造成代码冗余且重复  解决问题：将请求代码封装到一个函数中，当要发送时调用此函数即可   要传递和返回的数据在执行Ajax请求时，要有请求的参数类型、请求的地址、以及请求后返回的值 在调用函数的实参，可以用对象的方式，把数据存放在对象中，在修改、取值、和查看代码时，都可以很方便的了解到传递的值 在封装函数的形参中，有option">
-<meta property="og:type" content="article">
-<meta property="og:title" content="Ajax封装函数">
-<meta property="og:url" content="http://yoursite.com/2020/07/19/Ajax%E5%B0%81%E8%A3%85%E5%87%BD%E6%95%B0/index.html">
+  <meta property="og:type" content="website">
+<meta property="og:title" content="Hexo">
+<meta property="og:url" content="http://yoursite.com/tags/Hadoop/index.html">
 <meta property="og:site_name" content="Hexo">
-<meta property="og:description" content="问题：当要发送多次Ajax请求时，每次发送都要写一遍Ajax请求，会造成代码冗余且重复  解决问题：将请求代码封装到一个函数中，当要发送时调用此函数即可   要传递和返回的数据在执行Ajax请求时，要有请求的参数类型、请求的地址、以及请求后返回的值 在调用函数的实参，可以用对象的方式，把数据存放在对象中，在修改、取值、和查看代码时，都可以很方便的了解到传递的值 在封装函数的形参中，有option">
 <meta property="og:locale" content="ch_CN">
-<meta property="article:published_time" content="2020-07-19T14:27:30.000Z">
-<meta property="article:modified_time" content="2020-07-19T14:31:33.903Z">
 <meta property="article:author" content="Amphobia">
-<meta property="article:tag" content="Ajax">
 <meta name="twitter:card" content="summary">
   
     <link rel="alternative" href="/atom.xml" title="Hexo" type="application/atom+xml">
@@ -155,253 +150,60 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            <article id="post-Ajax封装函数" class="article article-type-post " itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
+            
   
-    <h1 class="article-title" itemprop="name">
-      Ajax封装函数
+  
+    
+    
+      
+      
+      <section class="archives-wrap">
+        <div class="archive-year-wrap">
+          <a href="/archives/2020" class="archive-year">2020</a>
+        </div>
+        <div class="archives">
+    
+    <article class="archive-article archive-type-post">
+  <div class="archive-article-inner">
+    <header class="archive-article-header">
+      	<div class="article-meta">
+	      	<a href="/2020/08/28/%E6%90%AD%E5%BB%BAHadoop%E4%BC%AA%E5%88%86%E5%B8%83%E5%BC%8F/" class="archive-article-date">
+  	<time datetime="2020-08-28T12:42:33.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-08-28</time>
+</a>
+        </div>
+    	 
+  
+    <h1 itemprop="name">
+      <a class="archive-article-title" href="/2020/08/28/%E6%90%AD%E5%BB%BAHadoop%E4%BC%AA%E5%88%86%E5%B8%83%E5%BC%8F/">搭建Hadoop伪分布式</a>
     </h1>
   
 
-        
-        <a href="/2020/07/19/Ajax%E5%B0%81%E8%A3%85%E5%87%BD%E6%95%B0/" class="archive-article-date">
-  	<time datetime="2020-07-19T14:27:30.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-07-19</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <ul>
-<li><p>问题：当要发送多次Ajax请求时，每次发送都要写一遍Ajax请求，会造成代码冗余且重复</p>
-</li>
-<li><p>解决问题：将请求代码封装到一个函数中，当要发送时调用此函数即可</p>
-</li>
-</ul>
-<h3 id="要传递和返回的数据"><a href="#要传递和返回的数据" class="headerlink" title="要传递和返回的数据"></a>要传递和返回的数据</h3><p>在执行Ajax请求时，要有<strong>请求的参数类型</strong>、<strong>请求的地址</strong>、以及<strong>请求后返回的值</strong></p>
-<p>在调用函数的实参，可以用对象的方式，把数据存放在对象中，在修改、取值、和查看代码时，都可以很方便的了解到传递的值</p>
-<p>在封装函数的形参中，有<strong>options</strong>表示，当取数据时，可以用<strong>options.属性名</strong>得到值</p>
-<p>对于得到响应后显示的数据，应该将得到的数据从函数中提取出来，由编程人员自己控制想要得到的数据</p>
-<ul>
-<li>实参<ul>
-<li>type：请求方式</li>
-<li>url：请求的地址</li>
-<li>success：响应成功的函数</li>
-</ul>
-</li>
-</ul>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line">ajax(&#123;</span><br><span class="line">    type: <span class="string">'get'</span>,</span><br><span class="line">    url: <span class="string">'http://localhost:3000/first'</span>,</span><br><span class="line">    success:<span class="function"><span class="keyword">function</span>(<span class="params">data</span>)</span>&#123;</span><br><span class="line">        <span class="built_in">console</span>.log(<span class="string">'这是success函数'</span>);</span><br><span class="line">        <span class="built_in">console</span>.log(data)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">ajax</span>(<span class="params">options</span>) </span>&#123;</span><br><span class="line">    <span class="comment">// 创建Ajax对象</span></span><br><span class="line">    <span class="keyword">var</span> xhr = <span class="keyword">new</span> XMLHttpRequest();</span><br><span class="line">    <span class="comment">// 配置Ajax</span></span><br><span class="line">    xhr.open(options.type, options.url);</span><br><span class="line">    <span class="comment">// 发送请求</span></span><br><span class="line">    xhr.send()</span><br><span class="line">    <span class="comment">// 监听返回的响应</span></span><br><span class="line">    xhr.onload = <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">        options.success(xhr.responseText);</span><br><span class="line">    &#125;;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 服务器路由</span></span><br><span class="line">app.use(<span class="string">'/first'</span>, (req, res) =&gt; &#123;</span><br><span class="line">    res.send(<span class="string">'hello Ajax'</span>)</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
-
-<h3 id="请求参数的问题"><a href="#请求参数的问题" class="headerlink" title="请求参数的问题"></a>请求参数的问题</h3><ul>
-<li><p>请求参数位置问题</p>
-<ul>
-<li>将请求参数传递给Ajax函数内部，在函数内部根据请求方式不同将请求参数放在不同位置</li>
-<li>get请求：放在请求地址后面</li>
-<li>post请求：放在send方法中</li>
-</ul>
-</li>
-<li><p>请求参数格式问题</p>
-<ul>
-<li><code>application/x-www-form-urlencoded</code><ul>
-<li>参数名称=参数值&amp;参数名称=参数值（<code>username=&#39;zhangsan&amp;age=23&#39;</code>）</li>
-</ul>
-</li>
-<li><code>application/json</code><ul>
-<li>{参数名称：参数值，参数名称：参数值}（<code>{username:&#39;zhangsan&#39;,age:23}</code>）</li>
-</ul>
-</li>
-<li>传递对象数据类型对于函数的调用者更加友好</li>
-<li>在函数内部，对象数据类型转换为字符串类型更加方便</li>
-</ul>
-</li>
-<li><p>data：要传递的数据</p>
-</li>
-<li><p>对传递的数据进行分析</p>
-<ul>
-<li>要将对象类型的参数转换为<code>username=&#39;zhangsan&amp;age=23&#39;</code>类型<ul>
-<li>循环遍历，将对象拆分拼接 </li>
-<li>将多余的无效字符去除，并重新赋值</li>
-</ul>
-</li>
-<li>判断请求类型<ul>
-<li>get请求：将参数拼接在url路径后</li>
-<li>post请求：将参数放在send方法（要设置请求头）</li>
-</ul>
-</li>
-</ul>
-</li>
-</ul>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line">ajax(&#123;</span><br><span class="line">    ...</span><br><span class="line">    data:&#123;</span><br><span class="line">        username : <span class="string">'zhangsan'</span>,</span><br><span class="line">        age : <span class="number">23</span></span><br><span class="line">    &#125;,</span><br><span class="line">    ...</span><br><span class="line">&#125;)</span><br><span class="line">    </span><br><span class="line"> <span class="comment">// 拼接请求参数的变量</span></span><br><span class="line"><span class="keyword">var</span> params = <span class="string">''</span>;</span><br><span class="line"><span class="comment">// 获取传递的参数，并遍历</span></span><br><span class="line"><span class="keyword">for</span> (<span class="keyword">var</span> attr <span class="keyword">in</span> options.data) &#123;</span><br><span class="line">    <span class="comment">// 拼接参数</span></span><br><span class="line">    params += attr + <span class="string">'='</span> + options.data[attr] + <span class="string">'&amp;'</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// 将得到的参数进行截取并重新赋值</span></span><br><span class="line">params = params.substr(<span class="number">0</span>, params.length - <span class="number">1</span>);</span><br><span class="line"><span class="comment">// 判断请求参数类型</span></span><br><span class="line"><span class="keyword">if</span> (options.type == <span class="string">'get'</span>) &#123;</span><br><span class="line">    options.url = options.url + <span class="string">'?'</span> + params;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// 配置Ajax</span></span><br><span class="line">xhr.open(options.type, options.url);</span><br><span class="line"><span class="comment">// 如果请求参数类型为post</span></span><br><span class="line"><span class="keyword">if</span> (options.type == <span class="string">'post'</span>) &#123;</span><br><span class="line">    <span class="comment">// 要设置post请求头</span></span><br><span class="line">    xhr.setRequestHeader(<span class="string">'Content-Type'</span>, <span class="string">'application/x-www-form-urlencoded'</span>);</span><br><span class="line">    xhr.send(params);</span><br><span class="line">&#125; <span class="keyword">else</span> &#123;</span><br><span class="line">    <span class="comment">// 发送请求</span></span><br><span class="line">    xhr.send()</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h3 id="请求头的选择"><a href="#请求头的选择" class="headerlink" title="请求头的选择"></a>请求头的选择</h3><p>如果调用函数时想要使用<code>application/json</code>或<code>application/x-www-form-urlencoded</code>，就可以将头文件提取出来，在调用函数时，指定想要的请求头</p>
-<ul>
-<li>在得到指定的请求头后，要对请求头进行判断<ul>
-<li>如果是json类型：就必须将json对象转换为字符串并传递到send方法中</li>
-<li>如果是普通字符串类型：就必须将拼接的字符串传递到send方法中</li>
-</ul>
-</li>
-</ul>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">ajax(&#123;</span><br><span class="line">    ...</span><br><span class="line">     header: &#123;</span><br><span class="line">         <span class="string">'Content-Type'</span>: <span class="string">'application/json'</span></span><br><span class="line">     &#125;,</span><br><span class="line">    ...</span><br><span class="line">&#125;)</span><br><span class="line">    </span><br><span class="line"><span class="comment">// 得到想要设置的请求头</span></span><br><span class="line"><span class="keyword">var</span> ContentType = options.header[<span class="string">'Content-Type'</span>];</span><br><span class="line"><span class="comment">// 要设置post请求头</span></span><br><span class="line">xhr.setRequestHeader(<span class="string">'Content-Type'</span>, ContentType);</span><br><span class="line"><span class="comment">// 判读请求头的类型</span></span><br><span class="line"><span class="keyword">if</span> (ContentType == <span class="string">'application/json'</span>) &#123;</span><br><span class="line">    <span class="comment">// 如果传递的是json数据类型，就必须将json对象转换为字符串传递到send方法中</span></span><br><span class="line">    xhr.send(<span class="built_in">JSON</span>.stringify(options.data));</span><br><span class="line">&#125; <span class="keyword">else</span> &#123;</span><br><span class="line">    xhr.send(params);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h3 id="对响应的状态进行操作"><a href="#对响应的状态进行操作" class="headerlink" title="对响应的状态进行操作"></a>对响应的状态进行操作</h3><p>在执行onload事件时，客户端会得到服务端响应的状态码，如果状态码为<strong>200</strong>则代表成功，若是其他的状态码，则代表失败。可以分别创建成功和失败的函数，用来返回信息</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">ajax(&#123;</span><br><span class="line">    ...</span><br><span class="line">    success: <span class="function"><span class="keyword">function</span> (<span class="params">data, xhr</span>) </span>&#123;</span><br><span class="line">        <span class="built_in">console</span>.log(<span class="string">'这是success函数'</span>);</span><br><span class="line">        <span class="built_in">console</span>.log(data)</span><br><span class="line">        <span class="built_in">console</span>.log(xhr)</span><br><span class="line">    &#125;,</span><br><span class="line">    error: <span class="function"><span class="keyword">function</span> (<span class="params">err, xhr</span>) </span>&#123;</span><br><span class="line">        <span class="built_in">console</span>.log(<span class="string">'这是error函数'</span>);</span><br><span class="line">        <span class="built_in">console</span>.log(err)</span><br><span class="line">    &#125;</span><br><span class="line">    ...</span><br><span class="line">&#125;)</span><br><span class="line"></span><br><span class="line">xhr.onload = <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="comment">// 判断http状态码</span></span><br><span class="line">    <span class="keyword">if</span> (xhr.status == <span class="number">200</span>) &#123;</span><br><span class="line">        <span class="comment">// 请求成功 </span></span><br><span class="line">        options.success(xhr.responseText, xhr);</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        <span class="comment">// 请求失败</span></span><br><span class="line">        options.error(xhr.responseText, xhr);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
-
-<h3 id="对服务器返回数据的类型判断"><a href="#对服务器返回数据的类型判断" class="headerlink" title="对服务器返回数据的类型判断"></a>对服务器返回数据的类型判断</h3><p>如果服务端响应的是json类型时，客户端得到的时json字符串，因此要把json字符串转换为json对象。应该对请求头进行判断。若请求头时<code>application/json</code>时，就应该将json字符串转换为json对象</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"> <span class="comment">// 获得请求头的信息</span></span><br><span class="line"><span class="keyword">var</span> ContentType = xhr.getResponseHeader(<span class="string">'Content-Type'</span>);</span><br><span class="line"><span class="comment">// 获得服务器返回的数据</span></span><br><span class="line"><span class="keyword">var</span> responseText = xhr.responseText;</span><br><span class="line"><span class="comment">// 对请求头类型进行判断</span></span><br><span class="line"><span class="keyword">if</span> (ContentType.includes(<span class="string">'application/json'</span>)) &#123;</span><br><span class="line">    <span class="comment">// 将响应的json字符串转换成json对象</span></span><br><span class="line">    responseText = <span class="built_in">JSON</span>.parse(responseText)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 响应json数据格式路由</span></span><br><span class="line">app.use(<span class="string">'/responseText'</span>, (req, res) =&gt; &#123;</span><br><span class="line">    res.send(&#123;<span class="string">'name'</span>:<span class="string">'张三'</span>&#125;)</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
-
-<h3 id="简化函数传递的参数"><a href="#简化函数传递的参数" class="headerlink" title="简化函数传递的参数"></a>简化函数传递的参数</h3><p>如果在函数中先声明一个对象，对象中存放默认的数据，当要改变某个参数值时，就传递哪一个属性。这样就可以简化调用函数时复杂的形参个数</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 创建默认的参数数值</span></span><br><span class="line"><span class="keyword">var</span> defaults = &#123;</span><br><span class="line">    type: <span class="string">'get'</span>,</span><br><span class="line">    url: <span class="string">''</span>,</span><br><span class="line">    data: &#123;&#125;,</span><br><span class="line">    header: &#123;</span><br><span class="line">        <span class="string">'Content-Type'</span>: <span class="string">'application/x-www-form-urlencoded'</span></span><br><span class="line">    &#125;,</span><br><span class="line">    success: <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123; &#125;</span><br><span class="line">&#125;;</span><br><span class="line"><span class="comment">// 用options的值替换defaults的值</span></span><br><span class="line"><span class="built_in">Object</span>.assign(defaults, options);</span><br></pre></td></tr></table></figure>
-      
-
-      
-        <div class="page-reward">
-          <a href="javascript:;" class="page-reward-btn tooltip-top">
-            <div class="tooltip tooltip-east">
-            <span class="tooltip-item">
-              赏
-            </span>
-            <span class="tooltip-content">
-              <span class="tooltip-text">
-                <span class="tooltip-inner">
-                  <p class="reward-p"><i class="icon icon-quo-left"></i>谢谢你请我吃糖果<i class="icon icon-quo-right"></i></p>
-                  <div class="reward-box">
-                    
-                    
-                  </div>
-                </span>
-              </span>
-            </span>
-          </div>
-          </a>
-        </div>
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
+        <div class="article-info info-on-right">
+          
 	<div class="article-tag tagcloud">
 		<i class="icon-price-tags icon"></i>
 		<ul class="article-tag-list">
 			 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">Ajax</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">Hadoop</a>
         		</li>
       		
 		</ul>
 	</div>
 
-      
+          
 
-      
-
-      
-        
-<div class="share-btn share-icons tooltip-left">
-  <div class="tooltip tooltip-east">
-    <span class="tooltip-item">
-      <a href="javascript:;" class="share-sns share-outer">
-        <i class="icon icon-share"></i>
-      </a>
-    </span>
-    <span class="tooltip-content">
-      <div class="share-wrap">
-        <div class="share-icons">
-          <a class="weibo share-sns" href="javascript:;" data-type="weibo">
-            <i class="icon icon-weibo"></i>
-          </a>
-          <a class="weixin share-sns wxFab" href="javascript:;" data-type="weixin">
-            <i class="icon icon-weixin"></i>
-          </a>
-          <a class="qq share-sns" href="javascript:;" data-type="qq">
-            <i class="icon icon-qq"></i>
-          </a>
-          <a class="douban share-sns" href="javascript:;" data-type="douban">
-            <i class="icon icon-douban"></i>
-          </a>
-          <a class="qzone share-sns" href="javascript:;" data-type="qzone">
-            <i class="icon icon-qzone"></i>
-          </a>
-          <a class="facebook share-sns" href="javascript:;" data-type="facebook">
-            <i class="icon icon-facebook"></i>
-          </a>
-          <a class="twitter share-sns" href="javascript:;" data-type="twitter">
-            <i class="icon icon-twitter"></i>
-          </a>
-          <a class="google share-sns" href="javascript:;" data-type="google">
-            <i class="icon icon-google"></i>
-          </a>
         </div>
-      </div>
-    </span>
-  </div>
-</div>
-
-<div class="page-modal wx-share js-wx-box">
-    <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
-    <p>扫一扫，分享到微信</p>
-    <div class="wx-qrcode">
-      <img src="//pan.baidu.com/share/qrcode?url=http://yoursite.com/2020/07/19/Ajax%E5%B0%81%E8%A3%85%E5%87%BD%E6%95%B0/" alt="微信分享二维码">
-    </div>
-</div>
-
-<div class="mask js-mask"></div>
-      
-      <div class="clearfix"></div>
-    </div>
+        <div class="clearfix"></div>
+    </header>
   </div>
 </article>
-
-  
-<nav id="article-nav">
-  
-    <a href="/2020/08/28/%E6%90%AD%E5%BB%BAHadoop%E4%BC%AA%E5%88%86%E5%B8%83%E5%BC%8F/" id="article-nav-newer" class="article-nav-link-wrap">
-      <i class="icon-circle-left"></i>
-      <div class="article-nav-title">
-        
-          搭建Hadoop伪分布式
-        
-      </div>
-    </a>
   
   
-    <a href="/2020/07/14/Nodejs%20%E4%B9%8Bhttp/" id="article-nav-older" class="article-nav-link-wrap">
-      <div class="article-nav-title">Nodejs 之 http的数据传输</div>
-      <i class="icon-circle-right"></i>
-    </a>
-  
-</nav>
-
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-  
-  
+    </div></section>
   
 
-  
-
-  
-
-  
+    
 
 
           </div>
@@ -424,9 +226,9 @@
 	var yiliaConfig = {
 		mathjax: false,
 		isHome: false,
-		isPost: true,
+		isPost: false,
 		isArchive: false,
-		isTag: false,
+		isTag: true,
 		isCategory: false,
 		open_in_new: false,
 		toc_hide_index: true,
